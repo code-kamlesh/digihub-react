@@ -1,0 +1,76 @@
+{
+  "name": "digiHubWeb",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
+    "@material-ui/core": "4.3.2",
+    "@material-ui/data-grid": "^4.0.0-alpha.37",
+    "@material-ui/icons": "4.2.1",
+    "@material-ui/lab": "^4.0.0-alpha.36",
+    "@mui/material": "^5.0.1",
+    "bootstrap": "^4.4.1",
+    "d3": "3.5.17",
+    "dom-to-image": "^2.6.0",
+    "env-cmd": "^10.1.0",
+    "file-type": "^16.5.0", 
+    "jquery": "^3.4.1",
+    "js-cookie": "^2.2.1",
+    "material-table": "^1.54.1",
+    "material-ui": "^0.20.2",
+    "material-ui-dropzone": "^2.4.7",
+    "mui-datatables": "^2.15.0",
+    "multiselect-react-dropdown": "^1.5.0",
+    "perfect-scrollbar": "1.4.0",
+    "react": "^16.12.0",
+    "react-bootstrap": "^1.0.0-beta.16",
+    "react-dom": "^16.12.0",
+    "react-fontawesome": "^1.7.1",
+    "react-ga": "^2.7.0",
+    "react-google-login": "^5.0.7",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.3.0",
+    "react-select": "^3.0.8",
+    "react-select-material-ui": "^6.2.0",
+    "react-table": "^6.10.3",
+    "reactstrap": "^8.1.1",
+    "read-excel-file": "^5.2.24",
+    "recharts": "^2.0.0-beta.1",
+    "redux-react-session": "^2.6.1",
+    "redux-thunk": "^2.3.0",
+    "table": "^5.4.6",
+    "underscore": "^1.9.1",
+    "xlsx": "^0.17.2",
+    "yarn": "^1.22.11"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "runOnTest": "env-cmd -f .env.uat react-scripts start",
+    "eject": "react-scripts eject",
+    "build:uat": "env-cmd -f .env.uat react-scripts build",
+    "build:playground": "env-cmd -f .env.development react-scripts build",
+    "build:production": "env-cmd -f .env.production react-scripts build"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "react-hot-loader": "^4.13.0"
+  }
+}

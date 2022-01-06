@@ -77,7 +77,7 @@ passwordReset = (event) => {
 
 passwordReset1(){
     CheckIfUserWithDetailsExists(this.state.email,this.state.user_name,this.state.DOB).then((jsondata)=>{
-        if(jsondata.status === "success"){
+        if(jsondata.data !== "null"){
         let res = JSON.parse(jsondata.data)
         // console.log(res.id)
 
@@ -158,7 +158,10 @@ passwordReset1(){
         this.resetForm();
         alertDialogOptions.message =<span style={{color:"green"}}>Password Changed Sucessfully</span>;
         this.setState({ alertDialogFlag: true });
-        // window.location.reload();
+        window.location.reload();
+        }
+        else{
+            alert("New Password Cannot be same as Previous password")
         }
       });
     }
