@@ -1,0 +1,333 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 21, 2015, 7:16:44 PM
+    Author     : 711852
+*/
+
+@font-face {
+    font-family: 'OpenSans';
+    src: url('../fonts/OpenSans-Regular.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+@font-face {
+    font-family: 'OpenSansBold';
+    src: url('../fonts/OpenSans-Bold.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+body{
+    /*background-color: #40BCDE;*/
+    background-color: #FFFFFF;
+    /*background-image: url('../images/grey.png');
+  background-image: url('../images/pattern-6xa9.png');*/
+    font-family: OpenSans;
+    font-size: 3vw;
+    color:#403E45;
+}
+
+h1{
+    font-family: OpenSansBold;
+    font-size: 7vw;
+}
+h2{
+    font-family: OpenSansBold;
+    font-size: 5vw;
+}
+
+.error{
+    font-size: 2vw;
+    color: #E96151;
+}
+
+.alert{
+    font-size: 2vw; 
+}
+
+.homeImage{
+    width: 100%;
+    height: 5.5em;
+    padding: .2em;
+}
+.resultsImage{
+    /*width: 40%;*/
+    height: 7em;
+}
+.responseImage{
+    /*width: 40%;*/
+    height: 3em;
+}
+
+.responseImage2{
+    /*width: 40%;*/
+    height: 3em;
+}
+
+.strokeme
+{
+    color: #5D717A;
+    /*    color: #54D0D6;*/
+    text-shadow:
+        -1px -1px 0 #eaeaea
+        1px -1px 0 #eaeaea,
+        -1px 1px 0 #eaeaea,
+        1px 1px 0 #eaeaea;  
+}
+
+.loginB {
+    color: white;
+    cursor: pointer;
+    padding:10px;
+    /*background-color : #E8534F;*/  
+    background-color : #5AD091;  
+    border: 1px solid #5AD091;
+    margin-left: 40%;
+    width: 200px;
+    height: 50px;
+    /*border-radius: 10px;*/
+}
+
+.box > button{
+    font-size: 4vw;
+    cursor: pointer;
+    background-color : #e96151;
+    border:2px solid transparent;
+    padding: 10px;
+    /*border-radius: 4px;*/
+    display: table-cell;
+    vertical-align: middle;
+    height: 80px;
+}
+
+.nonebtn{
+    background-color : transparent;
+    border:2px solid transparent;
+
+}
+
+.color-white{
+    color:white;
+    /*    color: #2B3940;
+        text-shadow:
+            -1px -1px 0 #fff,
+            1px -1px 0 #fff,
+            -1px 1px 0 #fff,
+            1px 1px 0 #fff;  */
+}
+
+.textBox{
+    text-align:center;
+}
+
+.no-padding{
+    padding: 0px;
+}
+.padding{
+    padding: 10px;
+}
+.padding-30{
+    padding: 30px;
+}
+.padding-40{
+    padding: 40px;
+}
+
+.margin{
+    margin:10px;
+}
+.margin-20{
+    margin:20px;
+}
+.margin-30{
+    margin:30px;
+}
+.margin-top-10{
+    margin-top:10px;
+}
+.margin-top-20{
+    margin-top:20px;
+}
+.margin-top-40{
+    margin-top:40px;
+}
+
+.center-block{
+    display:table-cell; 
+    vertical-align:middle; 
+    text-align: center;
+}
+
+
+
+
+
+
+.vertical-adjust{
+    vertical-align:   3px;
+}
+
+.playImage{
+    width: 100%;
+    padding: 20px;
+    /*height: 10em;*/
+}
+
+.playImageIcon{
+    width: 1000%;
+    border-width: 3px;
+    border-style: solid;
+    padding: 2px;
+    max-height: 10%;
+    margin-top: 2px;
+    float: left;
+    height: 7em;
+}
+
+.playImageIcon-selected{
+    border: 3px dashed;
+    border-radius: 10px;
+}
+
+.like{
+    border-color: #247594;
+}
+.unlike{
+    border-color: #F16738;
+}
+.confused{
+    border-color: #4CC1CC;
+}
+
+
+
+
+.imageContainer{
+    width:100%;
+    height:0;
+    padding-bottom: 40%;  /*acts as fluid height*/
+    overflow:hidden;
+    position:relative;
+}
+
+.imageContainer >img{
+    position:absolute;
+    width:100%;
+    height:100%;
+}
+
+#tabs >li{
+    cursor: pointer;
+}
+
+#chartAlert{
+    color: black;
+}
+.pointer{
+    cursor: pointer;
+}
+
+/* Portrait and Landscape */
+@media screen and (max-width: 340px) {
+    .imageContainer {
+        padding-bottom: 100%;
+    }
+    .playImageIcon{
+        height: 4em;
+    }
+}
+
+@media screen and (max-width: 340px)and (orientation: portrait) {
+    .imageContainer {
+        padding-bottom: 80%;
+    }
+    .homeImage{
+        height: 8.5em; 
+    }
+    .playImageIcon{
+        height: 4em;
+    }
+}
+@media screen and (max-width: 340px)and (orientation: landscape) {
+    .imageContainer {
+        padding-bottom: 80%;
+    }
+    .box > div{
+        height: 100px;
+    }
+    .playImageIcon{
+        height: 4em;
+    }
+}
+@media screen and (max-width: 800px) {
+    .imageContainer {
+        padding-bottom: 100%;
+    }
+}
+
+@media screen and (max-width: 800px)and (orientation: portrait) {
+    .imageContainer {
+        padding-bottom: 90%;
+    }
+    .homeImage{
+        height: 8.5em; 
+    }
+    .playImageIcon{
+        height: 7em;
+    }
+}
+@media screen and (max-width: 800px)and (orientation: landscape) {
+    .imageContainer {
+        padding-bottom: 80%;
+    }
+    .box > div{
+        height: 100px;
+    }
+    .playImageIcon{
+        height: 7em;
+    }
+}
+
+
+/* Landscape */
+@media 
+(max-device-width: 1280px) 
+and (orientation: landscape) { 
+
+}
+
+.one {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.0s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.0s;
+}
+
+.two {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.2s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.2s;
+}
+
+.three {
+    opacity: 0;
+    -webkit-animation: dot 1.3s infinite;
+    -webkit-animation-delay: 0.3s;
+    animation: dot 1.3s infinite;
+    animation-delay: 0.3s;
+}
+
+@-webkit-keyframes dot {
+    0% { opacity: 0; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+@keyframes dot {
+    0% { opacity: 0; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
