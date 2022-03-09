@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import AlertDialog from '../util/AlertDialog';
 import { isPasswordsSame,passwordStrength,isNotEmpty} from '../util/validation';
 import {login,CheckIfUserWithDetailsExists,ResetPasswordWithoutLoggingIn} from '../util/api';
-import { InputLabel } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
 
 const alertDialogOptions = {
     message: ''
@@ -15,7 +13,7 @@ export default class ForgotPassword extends React.Component{
         this.state={
             email:'',
             userId_forgetpassword:'',
-            DOB:'',password:'', user_name:'', // changes for forget passwprd
+            password:'', user_name:'', // changes for forget passwprd
             newPassword:'',
             confirmPassword:'',
             
@@ -44,19 +42,6 @@ handleInputEmailChange(event){
 //        email: value
 //    })
 }
-//
-handleInputDOBChange(event){
-
-    const target = event.target;
-        const value =  target.value;
-        const name = target.name; 
-
-        this.state.DOB = value
-        // this.setState({
-        //     DOB: value
-        // })
-}
-
 
 //
 handleInputUser(event){
@@ -76,7 +61,7 @@ passwordReset = (event) => {
 }
 
 passwordReset1(){
-    CheckIfUserWithDetailsExists(this.state.email,this.state.user_name,this.state.DOB).then((jsondata)=>{
+    CheckIfUserWithDetailsExists(this.state.email,this.state.user_name).then((jsondata)=>{
         if(jsondata.data !== "null"){
         let res = JSON.parse(jsondata.data)
         // console.log(res.id)
@@ -130,21 +115,6 @@ passwordReset1(){
         this.setState({[name]: value });
        
     }
-
-
-    // Reset the page 
-    resetForm =()=>{
-        console.log("Hello")
-        // this.state.newPassword=""
-        this.setState({newPassword:''})
-        this.setState({confirmPassword:''})
-        // this.state.confirmPassword="" 
-        let errors = this.state.errors;
-        errors.confirmPasswordError="";
-        errors.newPasswordError="";    
-        this.setState({errors});
-        console.log("Hello2")
-    }
     // update password
     updatePassword = (event)=>{
     event.preventDefault();
@@ -155,7 +125,6 @@ passwordReset1(){
     if (isPasswordsSame(this?.state?.newPassword, this?.state?.confirmPassword)) {
         ResetPasswordWithoutLoggingIn(this.state.userId_forgetpassword, this.state.newPassword).then((jsondata) => {
         if(jsondata.status === "success"){
-        this.resetForm();
         alertDialogOptions.message =<span style={{color:"green"}}>Password Changed Sucessfully</span>;
         this.setState({ alertDialogFlag: true });
         window.location.reload();
@@ -185,12 +154,6 @@ passwordReset1(){
                         <span class="fa fa-envelope-o" aria-hidden="true"></span>
                         <input type="text" placeholder="Email" name="email"  maxlength="50" onChange={this.handleInputEmailChange.bind(this)} required />
                     </div>
-                    <div class="input">
-                        <span class="fa fa-key" aria-hidden="true"></span>
-                        <input type="date"  format={'YYYY/MM/DD'} placeholder="DOB" name="DOB"  onChange={this.handleInputDOBChange.bind(this)} required />
-                    </div>
-                  
-
                     <div class="input">
                         <span class="fa fa-key" aria-hidden="true"></span>
                         <input type="text" placeholder="user_name" name="user_name"  onChange={this.handleInputUser.bind(this)} required />

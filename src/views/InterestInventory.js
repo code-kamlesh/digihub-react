@@ -428,18 +428,18 @@ jsonHollandCodeObjects.map(item => {coursesOfHollandCode.push(item.course)});
                     </div>
                     <Grid container spacing={2}>
                         <Grid item xs={12} sm={4}>
-                            <center> <Button class=" nonebtn " value='like' onClick={e => this.nextImg(e, "like")}>
-                                <img src={process.env.PUBLIC_URL + "/icons/" + this.state.one.img1} class="responseImage" />
+                            <center> <Button class=" nonebtn " value='like' onClick={e => this.nextImg(e, "like")} style={{fontSize:"24px"}}>
+                                <img src={process.env.PUBLIC_URL + "/icons/" + this.state.one.img1} class="responseImage" width="125" />
                             </Button> </center>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <center> <Button class=" nonebtn " value='unlike' onClick={e => this.nextImg(e, "unlike")}>
-                                <img src={process.env.PUBLIC_URL + "/icons/" + this.state.one.img2} class="responseImage" />
+                            <center> <Button class=" nonebtn " value='unlike' onClick={e => this.nextImg(e, "unlike")} style={{fontSize:"24px"}}>
+                                <img src={process.env.PUBLIC_URL + "/icons/" + this.state.one.img2} class="responseImage"  width="125"/>
                             </Button> </center>
                         </Grid>
                         <Grid item xs={12} sm={4}>
-                            <center>  <Button class=" nonebtn " value='confused' onClick={e => this.nextImg(e, "confused")}>
-                                <img src={process.env.PUBLIC_URL + "/icons/" + this.state.one.img3} class="responseImage" />
+                            <center>  <Button class=" nonebtn " value='confused' onClick={e => this.nextImg(e, "confused")} style={{fontSize:"24px"}}>
+                                <img src={process.env.PUBLIC_URL + "/icons/" + this.state.one.img3} class="responseImage" width="125"/>
                             </Button> </center>
                         </Grid>
                     </Grid>

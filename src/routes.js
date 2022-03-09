@@ -26,22 +26,16 @@ import Update from "@material-ui/icons/Update";
 
 // core components/views for Admin layout
 import DashboardPage from "./views/DashboardPage.js";
-import ListPage from "./views/ListPage.js";
-import DetailsPage from "./views/DetailsPage.js";
 import addOrUpdateBeneficiary from "./views/AddOrUpdateBeneficiary.js";
 import batchManagementPage from "./views/BatchManagement.js";
-import ObservationPage from "./views/Observation.js";
+
 import beneficiaryListPage from "./views/BeneficiaryList";
 import Users from "./views/Users";
 import CreateUser from "./views/CreateUser";
-import educationDetailPage from "./views/Education";
-import familyDetailPage from "./views/FamilyDetails";
-import experienceDetailPage from "./views/ExperienceDetails";
-import InterestInventory from "./views/InterestInventory";
 import UserProfile from "./views/UserProfile";
 import ChangePassword from "./views/ChangePassword";
 import Batch from "./views/BatchDetails";
-import FundManger from "./views/FundManger";
+
 import Settings from "./views/Settings";
 
 const dashboardRoutes = [

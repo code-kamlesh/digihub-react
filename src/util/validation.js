@@ -817,3 +817,19 @@ export function validateTextField(textfield){
     }
 }
 
+export function validateStartDatePreviousThreeDay(value) {
+    let today = new Date()
+    let startDate= document.getElementById("startDate").value;
+    var startDate1 = new Date(startDate);
+    var previousDate = new Date();
+    previousDate.setDate(previousDate.getDate() -3)
+    var dateDiff = startDate1.getDate()-previousDate.getDate() 
+    // console.log(dateDiff)
+    // console.log(startDate1<=today)
+    // console.log(dateDiff>4)
+    // "The Start Date must be Bigger":""
+    // dateDiff>4 && startDate1<=today
+    var result =  dateDiff>4 ? (startDate1<=today? "The Start Date must be Bigger":""):""
+    // console.log(result)
+    return result
+}

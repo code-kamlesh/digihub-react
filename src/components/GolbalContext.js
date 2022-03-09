@@ -25,7 +25,9 @@ UserContext.propTypes = {
     assessmentCenterId:"",
     modelId:"",
     // to check the last password chnage data
-    lastPassowrdChangeDiff:""
+    lastPassowrdChangeDiff:"",
+    centerState:""
+  
   };
 
 export default UserContext;

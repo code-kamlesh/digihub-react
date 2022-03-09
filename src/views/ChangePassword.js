@@ -12,6 +12,7 @@ export default class ChangePassword extends Component {
     super(props)
     this.state = {
       currentPassword: '', newPassword: '', confirmPassword: '',disabledButton: false,
+      verifyPassowrd :true, // return boolean after verfying password
       errors:{newPasswordError:'',confirmPasswordError:'',currentPasswordError:''}
     };
   }
@@ -29,10 +30,7 @@ export default class ChangePassword extends Component {
     return valid;
   }
 
-
-
-
-  validate = (name,value)=>{
+    validate = (name,value)=>{
     let errors = this.state.errors;
     switch (name) {
       case 'currentPassword': 
@@ -74,53 +72,81 @@ export default class ChangePassword extends Component {
     errors.newPasswordError="";    
     this.setState({errors});
   }
-  updatePassword = (event) => {
+  // Changes in function for password reset
+ updatePassword =  async (event) => {
     let errors = this.state.errors;
     this.setState({ alertDialogFlag: false });
     event.preventDefault();
-    if(this.validateForm(errors)){ 
-    if (isPasswordsSame(this.state.newPassword, this.state.confirmPassword)) {
-        changePassword(UserContext.userid, this.state.newPassword).then((jsondata) => {
-        this.resetForm();
-        alertDialogOptions.message =<span style={{color:"green"}}>Password Changed Sucessfully</span>;
-        this.setState({ alertDialogFlag: true });
-        // window.location.reload();
-        window.location.href = "http://localhost:3000/";
-        // window.location.href = "https://digihubdev.tatastrive.com";
-        // this.props.history.push(({ pathname: 'https://digihubdev.tatastrive.com/',state: {} }));
-
-      });
-    }
-    else {
-      errors.confirmPasswordError='New and confirm password are not same';
-      this.setState({errors});
-      
+    // console.log(this.state.currentPassword)
+    if( await this.validateCurrentPassowrd(this.state.currentPassword)){
+      // console.log("all error>>>",this.state.errors)
+      if(this.validateForm(errors)){ 
+        if (isPasswordsSame(this.state.newPassword, this.state.confirmPassword)) {
+          if(isPasswordsSame(this.state.currentPassword,this.state.newPassword)){
+            alertDialogOptions.message =<span style={{color:"red"}}>New Passowrd Cannot be Same as Previous.</span>;
+            this.setState({ alertDialogFlag: true });
+          }
+          else{
+            changePassword(UserContext.userid, this.state.newPassword).then((jsondata) => {
+              // this.resetForm();
+              let data = JSON.parse(jsondata)
+              console.log(data)
+              alertDialogOptions.message =<span style={{color:"green"}}>Password Changed Sucessfully</span>;
+              this.setState({ alertDialogFlag: true });
+              // window.location.href = "http://localhost:3000/";
+              // window.location.href = "https://digihubdev.tatastrive.com";
+              // window.location.href = "https://digihubtest.tatastrive.com";
+              // window.location.href = "https://digihub.tatastrive.com";
+            });
+          }
+           
         }
-  } 
+        else {
+          errors.confirmPasswordError='New and confirm password are not same';
+          this.setState({errors});
+          
+            }
+      }  
+    }
 }
-
-
   isCurrentPasswordValid = (event) => {
+    let errors = this.state.errors;
     const target = event.target;
     const value = target.value;
     const name = target.name;
     this.setState({ ...this.state, currentPassword: value });
+    // removing error onchange value
+    errors.currentPasswordError="";
+    this.setState({errors});
+  }
+
+// Validate Current password (new function for validating)
+validateCurrentPassowrd= async (currentPassword)=>{
     let errors = this.state.errors;
-    this.validate(name,value);
-    isCurrentPasswordValid(UserContext.userName, value).then((jsondata) => {
+    this.validate(currentPassword,currentPassword);
+    await isCurrentPasswordValid(UserContext.userName, currentPassword).then((jsondata) => {
       let userDetails = JSON.parse(jsondata.data);
+      // console.log("datalength>>>>>>>>>>",userDetails)
       if (userDetails.length == 0) {
         errors.currentPasswordError='Current Password is not valid';
         this.setState({errors});
-           this.setState({ ...this.state, disabledButton: true });
+        // this.setState({ ...this.state, disabledButton: true });
+        // verifyPassowrd = false
+        this.setState({verifyPassowrd : false});
+       
       }
       else {
         errors.currentPasswordError="";
         this.setState({errors});
-        this.setState({ ...this.state, disabledButton: false });
+        // verifyPassowrd = true
+        this.setState({verifyPassowrd : true});
       }
     });
+    // console.log(this.state.verifyPassowrd)
+    return this.state.verifyPassowrd;
   }
+    
+
   render() {
     return (
       <div style={{ width: '100%' }}>

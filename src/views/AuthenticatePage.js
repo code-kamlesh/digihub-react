@@ -6,7 +6,7 @@ import './../assets/css/font-awesome.min.css'
 import logo from "./../assets/images/tatastrivelogo.png";
 import UserContext from './../components/GolbalContext'
 import ComponentVisibility from './../util/ComponentVisibility';
-import ForgotPassword from './ForgotPassword';
+import ForgotPassword from './ForgotPassword'; // component calling for forget password
 import {login,resetForgetPassword,changePassword,fetchUserScope,fectUserRoleDetails,fetchUserDetails,fetchCentersDetails,fetchCenterProgramMapping,fetchProgram,fetchComponentsByProgramIdAndRoleId} from './../util/api';
 import {clearAppData} from './../util/session.js';
 
@@ -74,6 +74,7 @@ class Authenticate extends Component {
   return  fetchUserScope(UserContext.userid).then((jsondata)=>{
                         if(jsondata.appError[0]==null){      
                             let jsonobjects = JSON.parse(jsondata.data);
+                            console.log(jsonobjects)
                             if(jsonobjects[0].roleMapId===27){
                                 clearAppData();
                             }else{
@@ -110,10 +111,12 @@ class Authenticate extends Component {
                     centerId.push({ "id":UserContext.centerId});
                   return  fetchCentersDetails(JSON.stringify(centerId)).then((jsondata)=>{                  
                             let jsonobjects = JSON.parse(jsondata.data); 
-                            // console.log(jsonobjects)            
+                            console.log(jsonobjects)            
                             UserContext.centerName = jsonobjects[0].name; 
                             UserContext.assessmentCenterId = jsonobjects[0].assessmentCenterId;
                             UserContext.modelId = jsonobjects[0].model;
+                            // adding state of center for student migration  
+                            UserContext.centerState = jsonobjects[0].state
                             return result;    
                          }) ;  
                 }else{ 
@@ -171,7 +174,7 @@ class Authenticate extends Component {
         <div class="bottom-text-w3ls" style={{ color: 'red',textAlign: 'center'}}>{this.state.appError}&nbsp; {(this.props.location.state!=null) && this.props.location.state.logoutmsg} </div>
                                     <div class="input">
                                         <span class="fa fa-envelope-o" aria-hidden="true"></span>
-                                        <input type="text" placeholder="Email" name="email"  maxlength="50" onChange={this.handleInputChange} required />
+                                        <input type="text" placeholder="User Name" name="email"  maxlength="50" onChange={this.handleInputChange} required />
                                     </div>
                                     <div class="input">
                                         <span class="fa fa-key" aria-hidden="true"></span>
@@ -241,6 +244,7 @@ class Authenticate extends Component {
                             <input type="radio" name="sections" id="option3"/>
                             <label for="option3" class="icon-left-w3pvt"><span class="fa fa-lock" aria-hidden="false"></span>Forgot Password?</label>
                             <article>
+                                {/* Forget password component calling */}
                                     <ForgotPassword />y
                              </article>
                         </div>

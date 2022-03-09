@@ -2,23 +2,35 @@ import React from 'react';
 import { Grid, InputLabel, Input, Button } from '@material-ui/core';
 import { SingleSelect } from "react-select-material-ui";
 import UserContext from '../components/GolbalContext'
-import { getUdyogMitraAndSkillInstitute,fetchSkillMithraByIdAndProgramId, findInformalCourses, saveInformalEnrollmentDetails, fectEnrollmentDetails, findSkillmithraByOrgId, changeStudentStatus } from '../util/api';
-import {
+import { getUdyogMitraAndSkillInstitute, findInformalCourses, saveInformalEnrollmentDetails, fectEnrollmentDetails, findSkillmithraByOrgId, changeStudentStatus } from '../util/api';
+import {validateStartDatePreviousThreeDay,
   getBusinessCaseDocument, getExperienceDetails, getBasicDetails, getAddressData, getFamilyData, getBusinessCaseData, getExistingBusiness,
   validateInterestInventory, getSocioEconomicData, validateEducationData, validateSingleCounselData, validateEndDate, validateStartDate
 } from './../util/validation';
+
+
+let today = new Date();
+let dd = String(today.getDate()).padStart(2, '0');
+let mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+let yyyy = today.getFullYear();
+let minDate = new Date(today);
+let maxDate = new Date(today);
+minDate = new Date(minDate.setDate(today.getDate() - 3))
+maxDate = new Date(maxDate.setDate(today.getDate() + 8))
+today = yyyy + '-' + mm + '-' + dd;
+minDate = minDate.getFullYear() + '-' + String(minDate.getMonth() + 1).padStart(2, '0') + '-' + String(minDate.getDate()).padStart(2, '0')
+maxDate = maxDate.getFullYear() + '-' + String(maxDate.getMonth() + 1).padStart(2, '0') + '-' + String(maxDate.getDate()).padStart(2, '0')
 
 
 //since there are only two center types so this is constant 
 const centerType = [
   //{ value: 'skillmithra', label: 'Skill Mithra' },
   { value: 'skillinginstitute', label: 'Skilling Institute' },
-  { value: 'udhyogmithra', label: 'Udhyog Mithra' },
-  { value: 'entrepreneurship', label: 'Entrepreneurship' }
+  { value: 'udhyogmithra', label: 'Udhyog Mithra' }
 ];
 
 export default class CourseEnrollment extends React.Component {
-  
+
   constructor(props) {
     super(props);
     this.state = {
@@ -79,46 +91,16 @@ export default class CourseEnrollment extends React.Component {
         this.state.disableSelects = false;
         let startDate = new Date(savedData.startDate)
         let endDate = new Date(savedData.endDate)
-        let today = new Date()
-        // today = today.getFullYear() + "-" + (((today.getMonth() + 1) < 10) ? "0" + (today.getMonth() + 1) : (today.getMonth() + 1)) + "-" + ((today.getDate() < 10) ? "0" + today.getDate() : today.getDate());
+        // let today = new Date()
         //disable all the selects + start Date incase date is lesser than today 
         // (startDate < today) ? this.setState({ disableSelects: true }) : this.setState({ disableSelects: false })
-        // console.log(startDate.getDate()+1," today ", today.getDate()+1 ," end ", endDate.getDate()+1)
-        // console.log(today+1," Startdate ",  startDate+1 ," end ", endDate+1,"")
-        let diff = today.getDate() > startDate.getDate()  ?  today.getDate() - startDate.getDate()  : startDate.getDate() - today.getDate()
-        // // console.log(30 - diff)
-        let dateDiff = 31- diff
-        // console.log(dateDiff) 
-        // console.log("Start Date ",startDate.getDate()-1)
-        // console.log("today Date ",(31-(today.getDate()-6)))
-       
-        let currentDay = new Date(startDate);
-        console.log("Start ",currentDay)
-
-        let today1 = new Date();
-        today1.setDate(today.getDate() + 3);
-        console.log("today ",today1)
-
-        // let nextday1 = currentDay.setDate(startDate.getDate() + 4);
-        var nextday1 = new Date(startDate);
-        nextday1.setDate(startDate.getDate() + 3);
-        console.log("Current day ",nextday1)
-        // let nextday2 = currentDay.setDate(startDate.getDate() + 5);
-
-        const diffTime = Math.abs(nextday1 - currentDay);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); 
-        console.log(diffDays);
-        // console.log("First + ",(30-(today.getDate()- startDate.getDate())))
-        // console.log("Second ",(30-(today.getDate()- startDate.getDate()))<=3)
-        // if (dateDiff>7)  && diffDays < 5
-        // || startDate < nextday1
-        // startDate < today ||
-        if( startDate < today || diffDays<4){
-          console.log("Hello1")
+        console.log("today ===> ", today)
+        console.log("mindate ===> ", minDate)
+        console.log("maxDate ===> ", maxDate)
+        if (startDate < today) {
           this.setState({
             disableSelects: true
           })
-          console.log("Hello 2")
         }
         //disable all the selects + start Date incase date is lesser than today 
         // (startDate < today) ? this.setState({ disableSelects: true }) : this.setState({ disableSelects: false })
@@ -130,7 +112,6 @@ export default class CourseEnrollment extends React.Component {
         }
         //In js month of any date when converted comes one month back so to avoid this code is written as +1 eg month[0] = "January"
         //getting the dates in proper format to populate the data i.e. yyyy-MM-dd
-        
         startDate = startDate.getFullYear() + "-" + (((startDate.getMonth() + 1) < 10) ? "0" + (startDate.getMonth() + 1) : (startDate.getMonth() + 1)) + "-" + ((startDate.getDate() < 10) ? "0" + startDate.getDate() : startDate.getDate());
         endDate = endDate.getFullYear() + "-" + (((endDate.getMonth() + 1) < 10) ? "0" + (endDate.getMonth() + 1) : (endDate.getMonth() + 1)) + "-" + ((endDate.getDate() < 10) ? "0" + endDate.getDate() : endDate.getDate())
         this.setState({
@@ -139,7 +120,7 @@ export default class CourseEnrollment extends React.Component {
         })
         //if orgId is present fetch all the orgName, enterType from findskillmithraByOrgId
         if (this.state.orgId != undefined || this.state.orgId != '') {
-          getUdyogMitraAndSkillInstitute(this.state.orgId).then((jsondata) => {
+          findSkillmithraByOrgId(this.state.orgId).then((jsondata) => {
             let response = JSON.parse(jsondata.data)
             response = response[0]
             if (response) {
@@ -149,7 +130,7 @@ export default class CourseEnrollment extends React.Component {
               })
             }
             //options from getUdyogMitraAndSkillInstitute to be populated in the option in availableCenters
-            fetchSkillMithraByIdAndProgramId(this.state.selectedCenterType,UserContext.defaultProgramId).then((jsondata) => {
+            getUdyogMitraAndSkillInstitute(this.state.selectedCenterType).then((jsondata) => {
               let res = JSON.parse(jsondata.data)
               if (res) {
                 res.forEach((value) => {
@@ -184,9 +165,10 @@ export default class CourseEnrollment extends React.Component {
     this.verify = this.verify.bind(this)
   }
 
-  
-  validateStartDate(){
-    let dateError = validateStartDate(this.state.startDate)
+
+  validateStartDate() {
+    let dateError = validateStartDatePreviousThreeDay(this.state.startDate)
+    console.log("component when mount",dateError)
     if (dateError) {
       this.setState({
         errors: {
@@ -197,12 +179,14 @@ export default class CourseEnrollment extends React.Component {
           }
         }
       })
+      console.log(this.state.errors)
       return true
     }
   }
 
-  validateEndDate(){
+  validateEndDate() {
     let dateError = validateEndDate(this.state.endDate)
+    console.log("component when mount",dateError)
     if (dateError) {
       this.setState({
         errors: {
@@ -218,7 +202,7 @@ export default class CourseEnrollment extends React.Component {
   }
 
   //if anything comes as empty this is the error
-  writeEmptyError(fieldname, error){
+  writeEmptyError(fieldname, error) {
     this.setState({
       errors: {
         ...this.state.errors,
@@ -267,8 +251,8 @@ export default class CourseEnrollment extends React.Component {
       })
       if (result) {
         this.setState({
-          disableSelects: true,
-          disableAll: true
+          // disableSelects: true,
+          // disableAll: true
         })
       }
     });
@@ -280,8 +264,8 @@ export default class CourseEnrollment extends React.Component {
       })
       if (result) {
         this.setState({
-          disableSelects: true,
-          disableAll: true
+          // disableSelects: true,
+          // disableAll: true
         })
       }
     });
@@ -293,12 +277,52 @@ export default class CourseEnrollment extends React.Component {
       })
       if (result) {
         this.setState({
-          disableSelects: true,
-          disableAll: true
+          // disableSelects: true,
+          // disableAll: true
         })
       }
     });
 
+    //observation is only mandatory for existing student of TS not for outside TS
+    //if (UserContext.defaultProgramId != 7) {
+    //   getBusinessCaseData((UserContext.defaultProgramId === 1 || UserContext.defaultProgramId === 9) ? this.state.linkedEngagementId : this.state.engagementId, this.state.dbUserId).then(result => {this.setState({
+    //     res: {
+    //       ...this.state.res, ['bc']: result
+    //     }
+    //   })
+    //   if(result){
+    //     this.setState({
+    //       disableSelects : true,
+    //       disableAll : true
+    //     })
+    //   }
+    // });
+    //   getBusinessCaseDocument((UserContext.defaultProgramId === 1 || UserContext.defaultProgramId === 9) ? this.state.linkedEngagementId : this.state.engagementId).then(result => {this.setState({
+    //     res: {
+    //       ...this.state.res, ['document']: result
+    //     }
+    //   })
+    //   if(result){
+    //     this.setState({
+    //       disableSelects : true,
+    //       disableAll : true
+    //     })
+    //   }
+    // });
+    // getExistingBusiness((UserContext.defaultProgramId === 1 || UserContext.defaultProgramId === 9) ? this.state.linkedEngagementId : this.state.engagementId).then(result => {
+    //   this.setState({
+    //     res: {
+    //       ...this.state.res, ['existingBusiness']: result
+    //     }
+    //   })
+    //   if (result) {
+    //     this.setState({
+    //       disableSelects: true,
+    //       disableAll: true
+    //     })
+    //   }
+    // });
+    //}
     getSocioEconomicData(this.state.engagementId, this.state.dbUserId).then(result => {
       this.setState({
         res: {
@@ -307,8 +331,8 @@ export default class CourseEnrollment extends React.Component {
       })
       if (result) {
         this.setState({
-          disableSelects: true,
-          disableAll: true
+          // disableSelects: true,
+          // disableAll: true
         })
       }
     });
@@ -319,10 +343,10 @@ export default class CourseEnrollment extends React.Component {
           ...this.state.res, ['education']: result
         }
       })
-      if(result){
+      if (result) {
         this.setState({
-          disableSelects : true,
-          disableAll : true
+          // disableSelects: true,
+          // disableAll: true
         })
       }
     });
@@ -333,97 +357,98 @@ export default class CourseEnrollment extends React.Component {
           ...this.state.res, ['Single Counselling']: result
         }
       })
-     //console.log(result)
-      if(result){
+      //console.log(result)
+      if (result) {
         this.setState({
-          disableSelects : true,
-          disableAll : true
+          // disableSelects: true,
+          // disableAll: true
         })
       }
     });
 
   }
 
-verify() {
+
+  verify() {
     //console.log(this.state)
     let isEmpty = '';
     let count = 0
-    if(this.state.disableSelects){
-        //For End Date if field is empty
-        if (this.state.endDate == undefined || this.state.endDate === 'NaN-NaN-NaN') {
-          this.writeEmptyError('endDate','Field cannot be empty')
-          isEmpty = isEmpty + ' End Date \n '
+    if (this.state.disableSelects) {
+      //For End Date if field is empty
+      if (this.state.endDate == undefined || this.state.endDate === 'NaN-NaN-NaN') {
+        this.writeEmptyError('endDate', 'Field cannot be empty')
+        isEmpty = isEmpty + ' End Date \n '
+      }
+      else {
+        this.validateEndDate(this.state.endDate) ? (isEmpty = isEmpty + ' End Date \n') : (isEmpty = isEmpty + '')
+      }
+    }
+    else {
+      //checking if the fields are empty or any error present
+      //For Center Type if field is empty 
+      if (this.state.selectedCenterType == undefined || this.state.selectedCenterType === '' || this.state.errors?.selectedCenterType?.value) {
+        if (this.state.errors?.selectedCenterType?.value) {
+          this.writeEmptyError('selectedCenterType', this.state.errors.selectedCenterType.label)
+          count += 1
         }
         else {
-              this.validateEndDate(this.state.endDate) ?  (isEmpty = isEmpty + ' End Date \n') : (isEmpty = isEmpty + '')
+          this.writeEmptyError('selectedCenterType', 'Field cannot be empty')
+          isEmpty = isEmpty + ' Center Type \n '
         }
+      }
+      //For Availaible Center if field is empty 
+      if (this.state.selectedAvailableCenter == undefined || this.state.selectedAvailableCenter === '' || this.state.orgId === undefined || this.state.orgId === '' || this.state.errors?.selectedCenterType?.value) {
+        if (this.state.errors?.selectedAvailableCenter?.value) {
+          this.writeEmptyError('selectedAvailableCenter', this.state.selectedAvailableCenter.label)
+          count += 1
+        }
+        else {
+          this.writeEmptyError('selectedAvailableCenter', 'Field cannot be empty')
+          isEmpty = isEmpty + ' Availaible Center \n '
+        }
+      }
+      //For Course Name if field is empty 
+      if (this.state.selectedCourseName === undefined || this.state.selectedCourseName === '' || this.state.courseId === undefined || this.state.courseId === '' || this.state.errors?.selectedCourseName?.value) {
+        if (this.state.errors?.selectedCourseName?.value) {
+          this.writeEmptyError('selectedCourseName', this.state.selectedCourseName.label)
+          count += 1
+        }
+        else {
+          this.writeEmptyError('selectedCourseName', 'Field cannot be empty')
+          isEmpty = isEmpty + ' Course Name \n '
+        }
+      }
+      //For Start Date if field is empty
+      if (this.state.startDate == undefined || this.state.startDate === 'NaN-NaN-NaN' || this.state.errors?.startDate?.value) {
+        if (this.state.errors?.startDate?.value) {
+          this.writeEmptyError('startDate', this.state.errors.startDate.label)
+          count += 1
+        }
+        else {
+          this.writeEmptyError('startDate', 'Field cannot be empty')
+          isEmpty = isEmpty + ' Start Date \n '
+        }
+      }
+      //For End Date if field is empty
+      if (this.state.endDate == undefined || this.state.endDate === 'NaN-NaN-NaN' || this.state.errors?.endDate?.value) {
+        if (this.state.errors?.endDate?.value) {
+          this.writeEmptyError('endDate', this.state.errors.endDate.label)
+          count += 1
+        }
+        else {
+          this.writeEmptyError('endDate', 'Field cannot be empty')
+          isEmpty = isEmpty + ' End Date \n '
+        }
+      }
     }
-    else{    
-        //checking if the fields are empty or any error present
-        //For Center Type if field is empty 
-        if (this.state.selectedCenterType == undefined || this.state.selectedCenterType === '' || this.state.errors?.selectedCenterType?.value) {
-          if(this.state.errors?.selectedCenterType?.value){
-            this.writeEmptyError('selectedCenterType',this.state.errors.selectedCenterType.label)  
-            count+=1
-          }
-          else{
-            this.writeEmptyError('selectedCenterType','Field cannot be empty')
-            isEmpty = isEmpty + ' Center Type \n '
-          }
-        }
-        //For Availaible Center if field is empty 
-        if (this.state.selectedAvailableCenter == undefined || this.state.selectedAvailableCenter === '' || this.state.orgId === undefined || this.state.orgId === '' || this.state.errors?.selectedCenterType?.value) {
-          if(this.state.errors?.selectedAvailableCenter?.value){
-            this.writeEmptyError('selectedAvailableCenter',this.state.selectedAvailableCenter.label)
-            count+=1
-          }
-          else{
-            this.writeEmptyError('selectedAvailableCenter','Field cannot be empty')
-            isEmpty = isEmpty + ' Availaible Center \n '
-          }
-        }
-        //For Course Name if field is empty 
-        if (this.state.selectedCourseName === undefined || this.state.selectedCourseName === '' || this.state.courseId === undefined || this.state.courseId === '' || this.state.errors?.selectedCourseName?.value) {
-          if(this.state.errors?.selectedCourseName?.value){
-            this.writeEmptyError('selectedCourseName',this.state.selectedCourseName.label)
-            count+=1
-          }
-          else{
-            this.writeEmptyError('selectedCourseName','Field cannot be empty')
-            isEmpty = isEmpty + ' Course Name \n '
-          }
-        }
-        //For Start Date if field is empty
-        if (this.state.startDate == undefined || this.state.startDate === 'NaN-NaN-NaN' || this.state.errors?.startDate?.value) {
-          if(this.state.errors?.startDate?.value){
-            this.writeEmptyError('startDate',this.state.errors.startDate.label)
-            count+=1
-          }
-          else{
-            this.writeEmptyError('startDate','Field cannot be empty')
-            isEmpty = isEmpty + ' Start Date \n '
-          }
-        }
-        //For End Date if field is empty
-        if (this.state.endDate == undefined || this.state.endDate === 'NaN-NaN-NaN' || this.state.errors?.endDate?.value) {
-          if(this.state.errors?.endDate?.value){
-            this.writeEmptyError('endDate',this.state.errors.endDate.label)
-            count+=1
-          }
-          else{
-            this.writeEmptyError('endDate','Field cannot be empty')
-            isEmpty = isEmpty + ' End Date \n '
-          }
-        }
-    }
-    if (isEmpty || count>0) {
-      if(isEmpty){
+    if (isEmpty || count > 0) {
+      if (isEmpty) {
         alert("Please Fill in the Following values\n" + isEmpty)
       }
-      else{
+      else {
         alert("There are one or more errors in the fields!")
       }
-      
+
     }
     else {
       //console.log(this.state)
@@ -433,43 +458,44 @@ verify() {
       saveInformalEnrollmentDetails(this.state.engagementId, '0', this.state.courseId, UserContext.userid, this.state.startDate, this.state.endDate, this.state.orgId).then((jsondata) => {
         //let result = jsondata.status
         let resultSave = jsondata.status
-        if(resultSave==="success"){
-            //console.log('hello')
-            //api to change the status to enrolled
-        changeStudentStatus(statusChangeData).then((jsondata) => {
+        if (resultSave === "success") {
+          //console.log('hello')
+          //api to change the status to enrolled
+          changeStudentStatus(statusChangeData).then((jsondata) => {
             let resultStatus = jsondata.status
             if (resultSave === "success" && resultStatus === "success") {
-              alert("Successfully Enrolled")
+              alert("successfully saved Data")
               setTimeout(() => { this.props.history.push({ pathname: '/dashboard/managebeneficiary', state: {} }) }, 3000)
             }
             else {
-
-              alert("Data not saved/updated successfully, Please try again!")
+              alert("Status changed successfully but data not saved/updated, Please try again!")
               //console.log('try again \n' + this.state)
             }
           })
         }
-        else{
-            alert("Both Start date and End date are Mandatory!")
+        else {
+          alert("Both Start date and End date are required!")
         }
-        })
+      })
     }
   }
 
-
   handleStartDate(event) {
-    let dateError = validateStartDate(event.target.value)
+    let dateError = validateStartDatePreviousThreeDay(event.target.value)
+    console.log(dateError)
     this.setState({
       [event.target.name]: event.target.value,
       endDate: '',
       errors: {
         ...this.state.errors,
         [event.target.name]: {
-          'label': dateError ? dateError : '',
+          'label': dateError  ? dateError : '',
           'value': dateError ? true : false
         }
       }
+      
     })
+    console.log(this.state.errors)
   }
 
   handleEndDate(event) {
@@ -484,6 +510,7 @@ verify() {
         }
       }
     })
+    console.log(this.state.errors)
   }
 
   handleselectedCenterType(selectname, value) {
@@ -510,7 +537,7 @@ verify() {
         }
       }
     })
-    fetchSkillMithraByIdAndProgramId(value,UserContext.defaultProgramId).then((jsondata) => {
+    getUdyogMitraAndSkillInstitute(value).then((jsondata) => {
       let result = jsondata.data
       result = JSON.parse(result)
       result.forEach((center) => {
@@ -688,11 +715,13 @@ verify() {
                 <Input type="date" name="startDate" id="startDate"
                   value={this.state.startDate || ''}
                   onChange={this.handleStartDate}
-                  // error={this.state.errors.startDate != undefined ? this.state.errors.startDate.value : ''}
-                  //helperText={this.state.errors.startDate != undefined ? this.state.errors.startDate.label : ''}
-                  disabled={this.state.disableSelects ? true : false} />
+                  error={this.state.errors.startDate != undefined ? this.state.errors.startDate.value : ''}
+                  // helperText={this.state.errors.startDate != undefined ? this.state.errors.startDate.label : ''}
+                  disabled={this.state.disableSelects ? true : false}
+                  inputProps={{ min: minDate }}
+                />
               </>
-              <InputLabel shrink={true} style={{ color: "red" }}>{this.state.errors.startDate != undefined ? this.state.errors.startDate.label : ''}</InputLabel>
+              {/* <InputLabel shrink={true} style={{ color: "red" }}>{this.state.errors.startDate != undefined ? this.state.errors.startDate.label : ''}</InputLabel> */}
             </Grid>
             <Grid item xs={12} sm={1}></Grid>
             <Grid item xs={12} sm={2}>
@@ -701,9 +730,11 @@ verify() {
                 <Input type="date" name="endDate" id="endDate"
                   value={this.state.endDate || ''}
                   onChange={this.handleEndDate}
-                  error={this.state.errors.endDate != undefined ? this.state.errors.endDate.value : ''}
+                  // error={this.state.errors.endDate != undefined ? this.state.errors.endDate.value : ''}
                   //helperText={this.state.errors.endDate != undefined ? this.state.errors.endDate.label : ''}
-                  disabled={this.state.disableAll ? true : false} />
+                  disabled={this.state.disableAll ? true : false}
+                  inputProps={{ min: minDate }}
+                />
               </>
               <InputLabel shrink={true} style={{ color: "red" }}>{this.state.errors.endDate != undefined ? this.state.errors.endDate.label : ''}</InputLabel>
             </Grid>

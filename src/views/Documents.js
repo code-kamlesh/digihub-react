@@ -124,26 +124,13 @@ this.setState({documents:jsonobjects});
       });
       }
 
-verfyFile(files,header){
-  if(header === "8950" ||header === "ffd8" || header == "696d")
-    {
-      console.log("111111")
-      this.setState({file: files[0]});
-      this.setState({errors : false})
-    }
-    else{
-      alert("Please upload valid file")
-      // this.setState({errors : true})
-      return; 
-    }
-}
       // Checking mime type
  onFileChangeHandler = ( files) => {
     var header = "";
     var blob = files[0]; // See step 1 above
     var fileReader = new FileReader();
      fileReader.onloadend =(e)=> {
-      console.log("1112222211")
+     
       var arr = (new Uint8Array(e.target.result)).subarray(0, 2);
      
       for(var i = 0; i < arr.length; i++) {
@@ -155,30 +142,20 @@ verfyFile(files,header){
       // its allow png, jpg,jpeg and pdf only
       if(header === "8950" ||header === "ffd8" || header == "2550")
       {
-        console.log("111111")
-        console.log(this.state)
-        // this.state.file = files[0]
-        // this.state.errors = false
         this.setState({file: files[0]});
         this.setState({errors : false})
       }
       else{
         alert("Please upload valid file")
         console.log(this.state)
-        // this.state.errors = true
+      
         this.setState({errors : true})
-        this.setState("error ")
+        // this.setState("error")
         return; 
       }
     };
     fileReader.readAsArrayBuffer(blob);
-    
-    // checking the MIME type of file
-    // var blob = files[0]; // See step 1 above
-    // console.log(blob.type)
-    
-    // this.setState({file: files[0]});
-    // console.log( fileTypeFromFile(file));
+
   }
 
   uploadDocuments = (e) => {
@@ -236,12 +213,13 @@ uploadDocument(localThis.state.dbUserId,localThis.state.engagementId,documentTyp
   }
 
   handleSelectChange(selectname, event) {
+    this.setState({file: null})
    this.setState({[selectname]: event}); 
   }
 
 
   handleTypeOfProofSelectChange(selectname, event) {
-
+    this.setState({file: null})
     let newVal = event;
     let stateVal = this.state.documentType;
 
@@ -313,7 +291,8 @@ uploadDocument(localThis.state.dbUserId,localThis.state.engagementId,documentTyp
             <DropzoneArea  
               name="file" id="file"
               meta
-              maxFileSize={2000000} filesLimit={1} showFileNames={true} 
+              maxFileSize={2000000} filesLimit={1} 
+              showFileNames={true} 
               onChange={this.onFileChangeHandler}
               key={this.state.clearDropzoneArea}
               />

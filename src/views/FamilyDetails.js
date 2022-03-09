@@ -270,6 +270,7 @@ class Family extends Component {
     //alert(JSON.stringify(this.state));
         
     saveFamilyDetails(action,this.state.rows).then((jsondata)=>{
+      console.log(">>>>>>>>>>>",this.state.rows)
             console.log(jsondata); 
             if(jsondata.appError==null){   
              // alert("data ala")   
@@ -516,7 +517,7 @@ getFamilyData(id)
                              value={this.state.rows[idx].grossSal}
                               onChange={this.handleChange(idx)}
                               onInput = {(e) =>{
-                                e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,5)
+                                e.target.value = Math.max(0, parseInt(e.target.value) ).toString().slice(0,6)
                             }}
                               helperText = {this.state.errors[idx] != undefined && this.state.errors[idx].grossSal != undefined ? this.state.errors[idx].grossSal.label : '' } 
                                error = {this.state.errors[idx] != undefined && this.state.errors[idx].grossSal != undefined ? this.state.errors[idx].grossSal.value : '' }

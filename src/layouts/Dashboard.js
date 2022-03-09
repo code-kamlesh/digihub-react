@@ -32,6 +32,8 @@ import ReactGA from 'react-ga';
 import centerOpsRoutes from "./../routes/centerOpsRoutes.js";
 import mobilizerRoutes from "./../routes/mobilizer.js";
 import funderRoutes from "./../routes/funderroutes.js"; 
+import callCenterRoutes from "./../routes/callCenterRoutes"; 
+// added routes for change password afetr 90 day
 import changePasswordRoutes from "./../routes/changePasswordRoutes.js";
 import {fetchUserDetails} from "./../util/api.js";
 const useStyles = makeStyles(styles);
@@ -81,13 +83,13 @@ const validateUserLastLoginDate =()=>{
 
 
  if(UserContext.roleid === 3 && (loaded || UserContext.defaultRoleId)){
-  validateUserLastLoginDate();
+  validateUserLastLoginDate(); // check last login date
   UserContext.defaultRoleId="";
     setRoutes( principalroutes);
     setLoaded(false);
   } 
 else if(UserContext.roleName === 'Change leader/Facilitator' && (loaded || UserContext.defaultRoleId)){
-  validateUserLastLoginDate();
+  validateUserLastLoginDate(); // check last login date
   UserContext.defaultRoleId="";
     setRoutes(changeleaderroutes);
     setLoaded(false);
@@ -97,13 +99,13 @@ else if(UserContext.roleName === 'Change leader/Facilitator' && (loaded || UserC
 // And also there is no accessor role, this role will be carried by Center Managers only
    if(UserContext.defaultProgramId == 1 || UserContext.defaultProgramId == 9)
    {
-    validateUserLastLoginDate();
+    validateUserLastLoginDate(); // check last login date
     UserContext.defaultRoleId="";
    setRoutes(nanoUniconRoutes);
    setLoaded(false);
     }
     else{
-    validateUserLastLoginDate();
+    validateUserLastLoginDate(); // check last login date
     UserContext.defaultRoleId="";
        setRoutes(assessorRoutes);
        setLoaded(false);
@@ -114,14 +116,14 @@ else if(UserContext.roleName === 'Change leader/Facilitator' && (loaded || UserC
 
   
   else if(UserContext.roleName === 'Corporate Admin' && (loaded || UserContext.defaultRoleId)){
-    validateUserLastLoginDate();
+    validateUserLastLoginDate();  // check last login date
     UserContext.defaultRoleId="";
     setRoutes(corporateAdminRoutes);
     setLoaded(false);
   }
   
   else if(UserContext.roleName === 'Center Ops' && (loaded || UserContext.defaultRoleId)){
-    validateUserLastLoginDate();
+    validateUserLastLoginDate(); // check last login date
    
     UserContext.defaultRoleId="";
     setRoutes(centerOpsRoutes);
@@ -129,7 +131,7 @@ else if(UserContext.roleName === 'Change leader/Facilitator' && (loaded || UserC
   }
   
   else if(UserContext.roleid === 19 && (loaded || UserContext.defaultRoleId)){
-    validateUserLastLoginDate();
+    validateUserLastLoginDate(); // check last login date
     UserContext.defaultRoleId="";
     setRoutes(mobilizerRoutes);
     setLoaded(false);
@@ -137,12 +139,18 @@ else if(UserContext.roleName === 'Change leader/Facilitator' && (loaded || UserC
   
 
  else if(UserContext.roleid === 10 && (loaded || UserContext.defaultRoleId)){
-  validateUserLastLoginDate();
-    UserContext.defaultRoleId="";
+  validateUserLastLoginDate();  // check last login date
+    UserContext.defaultRoleId=""; 
     setRoutes(funderRoutes);
     setLoaded(false);
   }
   
+  else if(UserContext.roleid === 2 && (loaded || UserContext.defaultRoleId)){
+    // validateUserLastLoginDate();  // check last login date
+      UserContext.defaultRoleId=""; 
+      setRoutes(callCenterRoutes);
+      setLoaded(false);
+    }
   
   let displayRoutes1 = [];
   let count=0;

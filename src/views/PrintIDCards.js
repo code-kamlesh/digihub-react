@@ -7,7 +7,7 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import blank_image from "./../assets/images/IcardBLOCKImage.PNG";
 import head_image from "./../assets/images/tatastrivelogo.png";
-import multiple_images_found from "./../assets/images/error_image_sample.png";
+import multiple_images_found from "./../assets/images/error_image_sample.jpg";
 import Table from '@material-ui/core/Table';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
@@ -197,7 +197,7 @@ export class IDCard_Front extends React.Component {
     return (
      
       <Card style={{ width: "300px", height: "500px", transform: 'rotate(90deg)', marginLeft: '150px', padding: '0px' }}>
-      <Box border={3} borderRadius="1.75%" >
+      <Box border={3} borderRadius="1.75%" style={{ width: "300px", height: "500px"}} >
           <img src={head_image} style={{ height: "120px", width: '80%', marginLeft: '10px', marginTop: '5px', marginBottom: '5px', paddingBottom: '5px' }} />
           <img src={this.state.url || blank_image} style={{ height: "150px", width: '70%', marginLeft: '40px' }} />
 
@@ -228,7 +228,7 @@ export class IDCard_back extends React.Component {
     return (    
       
       <Card style={{ width: "300px", height: "500px", transform: 'rotate(90deg)', marginLeft: '30px', padding: '0px' }}>
-      <Box border={3} borderRadius="1.75%" >
+      <Box border={3} borderRadius="1.75%" style={{ width: "300px", height: "500px"}} >
           <CardContent>
             <Typography variant="subtitle2" color="primary" style={{ fontSize: '15px'}}>Contact : {this.state?.studentDetails.primaryContactNo}</Typography>
             <Typography variant="subtitle2" color="primary" style={{ fontSize: '15px' }}>Card No : {this.state?.studentDetails.studentId}</Typography>

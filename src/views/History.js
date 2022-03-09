@@ -19,7 +19,6 @@ export default class History extends Component{
             metaData:[],
             studentData:[],
             status_of_File:"",
-            saveButton:true,
         } 
         // this.loadData = this.loadData.bind(this) ;
     }
@@ -37,7 +36,7 @@ export default class History extends Component{
                     {
                         "regId":arrData.regId,
                         "uploadFileName": arrData.uploadFileName,
-                        "batchName": arrData.batchName || "NA",
+                        "batchName": arrData.batchName || "---------",
                         "records":arrData.records,
                         "uploadDate":arrData.uploadDate,
                         "status": arrData.status
@@ -65,7 +64,7 @@ export default class History extends Component{
             }
 
             this.setState({metaData})
-            // this.setState({metaData})
+            
             // console.log("after ",this.state.metaData)
         })
     }
@@ -79,7 +78,7 @@ export default class History extends Component{
         // else{
             let studentData=[]
             const regId= e
-            const file_name =x
+            const file_name = x
             // console.log(x)
             var data={}
             fetchStudentFile(regId).then((jsondata)=>{
@@ -146,7 +145,7 @@ export default class History extends Component{
                 const workBook = XLSX.utils.book_new()
 
               
-
+// cover with try catch to handle unwanted exception
                 try{
                     XLSX.utils.book_append_sheet(workBook,workSheet,"download_"+regId+"_"+new Date().getDate()+"-"+(new Date().getMonth()+1)+"-"+ new Date().getYear() +".xlsx")
                     // Genrarting buffer if there is large amount of data
@@ -154,13 +153,14 @@ export default class History extends Component{
     
                     // Binary String
                     XLSX.write(workBook,{bookType:"xlsx",type:"binary"})
-                    XLSX.writeFile(workBook,"download_"+regId+"_"+new Date().getDate()+"-"+(new Date().getMonth()+1)+".xlsx") 
+                    // set the file name within 30 character to avoid the error
+                    XLSX.writeFile(workBook,"Download_"+regId+"_"+new Date().getDate()+"-"+(new Date().getMonth()+1)+".xlsx") 
 
                 }
                 catch(error){
-                    console.log(error)
+                    // console.log(error)
                 }
-                
+                /////////////////////////
             })
         }
         
@@ -184,7 +184,7 @@ export default class History extends Component{
              </Grid>
 
             <Grid>
-             <Table aria-label="simple table"  style={{ width: '100%'}}>
+             <Table aria-label="simple table"  style={{ width: '80%'}}>
             <TableHead>
               <TableRow>
                 <TableCell>Reg Id</TableCell>
@@ -205,8 +205,8 @@ export default class History extends Component{
                       <TableCell>{dataValue.records}</TableCell>
                       <TableCell>{dataValue.uploadDate}</TableCell>
                       <TableCell>{dataValue.status}</TableCell>
-                      <TableCell>{<Button size="small" variant="contained" color="primary" onClick={() => this.downloadFile
-                        (dataValue.regId,dataValue.uploadFileName)} > Download </Button>}</TableCell>
+                      <TableCell>{<Button size="small" variant="contained" color="primary" 
+                      onClick={() => this.downloadFile(dataValue.regId,dataValue.uploadFileName)} > Download </Button>}</TableCell>
                     </TableRow>))}
             </TableBody>
            </Table>

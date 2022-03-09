@@ -2486,10 +2486,27 @@ export async function fetchStudentDetailsBaisedOnChannel(channel) {
     }
     return null;
 }
-export async function fetchVirtualData(centerId, presState) {
+// export async function fetchVirtualData(centerId, presState) {
+//     if(isSessionValid()){
+//     let requestFormData = new FormData();  
+//     requestFormData.append('data', '{"token" : "", "action" : "viewDataByCenterId", "data" : [{ "centerId" : '+centerId+' , "presState" : "'+presState+'" }] }');
+//     if(!isTokenValid()) 
+//         await regenerateToken();                                                                      
+//    return  fetch(serviceEndPoint.reportservice,{
+//      method: "POST",
+//      headers: {
+//         'Authorization': 'Bearer '+UserContext.token
+//     }, 
+//      body: requestFormData,
+//      }).then(response => response.json());
+//     }
+//     return null;
+// }
+
+export async function fetchVirtualData(centerId, permState, creationChannel) {
     if(isSessionValid()){
     let requestFormData = new FormData();  
-    requestFormData.append('data', '{"token" : "", "action" : "viewDataByCenterId", "data" : [{ "centerId" : '+centerId+' , "presState" : "'+presState+'" }] }');
+    requestFormData.append('data', '{"token" : "", "action" : "viewDataByCenterIdAndCreationChannel", "data" : [{ "centerId" : '+centerId+' , "permState" : "'+permState+'" ,"creationChannel":"'+creationChannel+'"}] }');
     if(!isTokenValid()) 
         await regenerateToken();                                                                      
    return  fetch(serviceEndPoint.reportservice,{
@@ -2521,10 +2538,10 @@ export async function updateStudentData(engagementId, dbUserId,centerId,createdB
     return null;
 }
 // for forget password
-export async function CheckIfUserWithDetailsExists (emailAddress,userName,dob) {
+export async function CheckIfUserWithDetailsExists (emailAddress,userName) {
 
     let requestFormData = new FormData();  
-    requestFormData.append('data', '{"token" : "", "action" : "CheckIfUserWithDetailsExists", "data" : [{  "emailAddress" : "'+emailAddress+'","userName" : "'+userName+'" ,"dob" : "'+dob+'" }] }');
+    requestFormData.append('data', '{"token" : "", "action" : "CheckIfUserWithDetailsExists", "data" : [{  "emailAddress" : "'+emailAddress+'","userName" : "'+userName+'" }] }');
     
    return  fetch(serviceEndPoint.loginService,
    {
@@ -2546,4 +2563,57 @@ export async function ResetPasswordWithoutLoggingIn (id,password) {
      body: requestFormData,
      }).then(response => response.json());  
   return null;
+}
+
+// for virtual student list
+export async function fetchStudentDataOfVirtualCenter(centerId)
+{if(isSessionValid()){
+    let requestFormData = new FormData();  
+   
+      requestFormData.append('data', '{"token" : "", "action" : "viewAllByCenter", "data" : [{"centerId":"'+centerId+'"}]}');
+    if(!isTokenValid()) 
+        await regenerateToken();
+        return fetch(serviceEndPoint.engagementServiceEndPoint,{
+            method: "POST",
+            headers: {
+              'Authorization': 'Bearer '+UserContext.token
+          },
+            body: requestFormData,
+            }).then(response => response.json())
+}
+return null;
+}
+// Address baised on entity id and state and premanant state
+export async function fetchAddressBaiedOnIdAndState(entityId,type,state){
+    if(isSessionValid()){
+        let requestFormData = new FormData();
+        requestFormData.append('data','{"token":"","action":"viewAddressByEntityIdAndTypeAndState","data":[{"entityId":"'+entityId+'","type":"'+type+'","state":"'+state+'"}]}')
+        if(!isTokenValid()) 
+        await regenerateToken();
+        return fetch(serviceEndPoint.addressServiceEndPoint,{
+            method: "POST",
+            headers: {
+              'Authorization': 'Bearer '+UserContext.token
+          },
+            body: requestFormData,
+            }).then(response => response.json())
+    }
+    return null;
+}
+// updating center id in student engagement table
+export async  function updateCenterId(centerId,updatedBy ,engagementId){
+    if(isSessionValid()){
+        let requestFormData = new FormData();
+        requestFormData.append('data','{"token":"","action":"updateCenterIdBaisedOnEngagementId","data":[{"centerId":"'+centerId+'","updatedBy":"'+updatedBy+'","engagementId":"'+engagementId+'"}]}');
+        if(!isTokenValid())
+        await regenerateToken();
+        return fetch(serviceEndPoint.engagementServiceEndPoint,{
+            method:"POST",
+            header:{
+                'Authorization': 'Bearer'+UserContext.token
+            },
+            body: requestFormData,
+        }).then(response => response.json())
+    }
+    return null;
 }
